@@ -30,12 +30,12 @@
                     <th>Ação</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Maria</td>
+            <tbody id="corpo-tbody">
+                <tr >
+                    <!-- <td>Maria</td>
                     <td>Maria@maria.com</td>
                     <td>(11) 99999-8888</td>
-                    <td>São Paulo</td>
+                    <td>São Paulo</td> -->
                     <td>
                         <button type="button" class="button green">Editar</button>
                         <button type="button" class="button red">Excluir</button>
@@ -50,14 +50,16 @@
                     <span class="modal-close" id="modalClose">&#10006</span>
                     <!-- &#10006 = X -->
                 </header>
+                <!-- INPUTS ------------------------------------------------ -->
                 <form class="modal-form">
-                    <input type="text" class="modal-field" placeholder="Nome">
-                    <input type="email" class="modal-field" placeholder="Email">
-                    <input type="text" class="modal-field" placeholder="Celular">
-                    <input type="text" class="modal-field" placeholder="Cidade">
+                    <input type="text" class="modal-field" placeholder="Nome" id="nameId">
+                    <input type="email" class="modal-field" placeholder="Email" id="emailId">
+                    <input type="text" class="modal-field" placeholder="Celular" id="celularId">
+                    <input type="text" class="modal-field" placeholder="Cidade" id="cidadeId">
                 </form>
-                <footer>
-                    <button class="button green">
+                <!-- INPUTS ------------------------------------------------ -->
+                <footer class="modal-footer">
+                    <button id="button-salvar" class="button green">
                         Salvar
                     </button>
                     <button class="button blue">
