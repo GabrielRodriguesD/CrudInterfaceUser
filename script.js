@@ -14,69 +14,74 @@ document.getElementById("modalClose").addEventListener("click", closeModal);
 
 // --------------------------------------------------------------
 
-function CalcularValores(event) {
-    event.preventDefault();
+// function CalcularValores(event) {
+//     event.preventDefault();
 
-    let dadosUsuario = CapturarValores();
+//     let dadosUsuario = CapturarValores();
     
-    let dadosUsuarioCompleto = OrganizarDados(dadosUsuario);
+//     let dadosUsuarioCompleto = OrganizarDados(dadosUsuario);
 
-    CadastrarUsuario(dadosUsuarioCompleto)
+//     CadastrarUsuario(dadosUsuarioCompleto)
 
     
-    window.location.reload();
+//     window.location.reload();
     
-}
+// }
 
 // FUNÇÂO VALORES - COM OS INPUTS **** -------------------------
 
 function CapturarValores() {
+    let listaUsuario = [];
+
+
     const nome = document.getElementById("nameId").value;
     const email = document.getElementById("emailId").value;
     const celular = document.getElementById("celularId").value;
     const cidade = document.getElementById("cidadeId").value;
+    const id = Math.floor(Math.random() * 100);
     
+    // const botaoEditar = document.getElementById("button green").value;
+    // const botaoDeletar = document.getElementById("button red").value;
+
     const dadosUsuario = {
-        nome: nome,
-        email: email,
-        celular: celular,
-        cidade: cidade
+        // nome qualquer = nome da const
+        nomeUser: nome,
+        emailUser: email,
+        celularUser: celular,
+        cidadeUser: cidade,
+        idUser: id
     }
     
-    document.getElementById("button-salvar").addEventListener("click",closeModal)
 
-    return dadosUsuario;
-}
-// FUNÇÂO VALORES - COM OS INPUTS **** -------------------------
-
-
-// FUNÇÂO ORGANIZAR DADOS - COM OS DADOS **** -------------------------
-function OrganizarDados(dadosUsuario) {
-    // const dataHoraAtual = Intl.DateTimeFormat("pt-BR", {timeStyle: "long", dataStyle: "short" }).format(date.now());
-    
-    const dadosUsuarioCompleto = {
-        ...dadosUsuario,
-        // dataCadastro: dataHoraAtual
-    }
-    
-    return dadosUsuarioCompleto
-}
-// FUNÇÂO ORGANIZAR DADOS - COM OS DADOS **** -------------------------
-
-// FUNÇÂO CADASTRAR USUARIOS - **** -------------------------
-
-function CadastrarUsuario(usuario) {
-    let listaUsuario = [];
     
     if (localStorage.getItem("usuariosCadastrados")) {
         listaUsuario = JSON.parse(localStorage.getItem("usuariosCadastrados"))
     }
     
+    listaUsuario.push(dadosUsuario);
+
+    console.log(listaUsuario);
     
-    listaUsuario.push(usuario);
+    localStorage.setItem("usuariosCadastrados", JSON.stringify(listaUsuario))
+
+    closeModal();
+
+    window.location.reload()
     
-    localStorage.getItem("usuariosCadastrados", JSON.stringify(listaUsuario))
+
+    console.log(dadosUsuario)
+
 }
+document.getElementById("button-salvar").addEventListener("click",CapturarValores)
+// FUNÇÂO VALORES - COM OS INPUTS **** -------------------------
+
+
+// FUNÇÂO ORGANIZAR DADOS - COM OS DADOS **** -------------------------
+
+// FUNÇÂO ORGANIZAR DADOS - COM OS DADOS **** -------------------------
+
+// FUNÇÂO CADASTRAR USUARIOS - **** -------------------------
+
 
 // FUNÇÂO CADASTRAR USUARIOS - **** -------------------------
 function CarregarUsuarios() {
@@ -90,8 +95,8 @@ function CarregarUsuarios() {
         let tabela = document.getElementById("corpo-tbody");
         
         tabela.innerHTML =`
-        <tr> 
-            <td> Nenhum usuário cadastrado </td>
+        <tr > 
+            <td colspan="5"> Nenhum usuário cadastrado </td>
         </tr>
         `
     }else {
@@ -99,26 +104,51 @@ function CarregarUsuarios() {
     }
 }
 
-window.addEventListener('DOMContentLoaded', () => CarregarUsuarios())
+document.addEventListener('DOMContentLoaded', CarregarUsuarios)
+// window.addEventListener('DOMContentLoaded', () => CarregarUsuarios())
 
 
 // FUNÇÂO CARREGAR USUARIOS - **** -------------------------
 
 function montarTabela(listaDeCadastrados) {
-    let tabela = document.getElementById('corpo-tbody')
+    let tabela = document.getElementById('corpo-tabela')
 
     let template = "";
 
-    listaDeCadastrados.forEach(pessoa => {
+    listaDeCadastrados.forEach((pessoa) => {
         template += `
             <tr>
-                <td data-cell="nome" > ${pessoa.nome} </td>
-                <td data-cell="email" > ${pessoa.email} </td>
-                <td data-cell="celular" > ${pessoa.celular} </td>
-                <td data-cell="cidade"> ${pessoa.cidade} </td>
+                <td data-cell="nome" > ${pessoa.nomeUser} </td>
+                <td data-cell="email" > ${pessoa.emailUser} </td>
+                <td data-cell="celular" > ${pessoa.celularUser} </td>
+                <td data-cell="cidade" > ${pessoa.cidadeUser} </td>
+                <td>
+                    <button type="button" class="button green">Editar</button>
+                    <button type="button" class="button red" onclick="deleteUser(${pessoa.idUser})">Excluir</button> 
+                </td>
             </tr>
         `
+        console.log(listaDeCadastrados);
     });
 
     tabela.innerHTML = template;
+    // colocando o template dentro do tabelea (tbody)
+}
+
+function deleteUser (id) {
+    alert(id)
+
+    let listaUsuario = JSON.parse(localStorage.getItem("usuariosCadastrados")) || [];
+    // caso tenha dados usuariosCadastrados Ou array(vazio)
+
+    const  findIndex = listaUsuario.findIndex((userId) => userId.idUser == id)
+
+    console.log(findIndex);
+
+    if (findIndex !== -1) {
+        listaUsuario.splice(findIndex, 1)
+        localStorage.setItem("dadosUsuario", JSON.stringify(listaUsuario));
+        // setitem define noto item dentro do local storage
+        window.location.reload();
+    }
 }
