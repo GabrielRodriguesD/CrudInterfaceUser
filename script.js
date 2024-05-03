@@ -1,5 +1,8 @@
 const openModal = () => {
     document.getElementById("modal").classList.add("active")
+
+    document.getElementById("title-modal").innerText = "Cadastrar usuário"
+    document.getElementById("button-salvar").innerText = "Salvar"
 }
 
 const closeModal = () => {
@@ -11,6 +14,8 @@ document.getElementById("cadastrarUsuario").addEventListener("click", openModal)
 
 
 document.getElementById("modalClose").addEventListener("click", closeModal);
+
+
 
 // --------------------------------------------------------------
 
@@ -123,7 +128,7 @@ function montarTabela(listaDeCadastrados) {
                 <td data-cell="celular" > ${pessoa.celularUser} </td>
                 <td data-cell="cidade" > ${pessoa.cidadeUser} </td>
                 <td>
-                    <button type="button" class="button green">Editar</button>
+                    <button type="button" class="button green" onclick="updateUser(${pessoa.idUser})">Editar</button>
                     <button type="button" class="button red" onclick="deleteUser(${pessoa.idUser})">Excluir</button> 
                 </td>
             </tr>
@@ -134,6 +139,19 @@ function montarTabela(listaDeCadastrados) {
     tabela.innerHTML = template;
     // colocando o template dentro do tabelea (tbody)
 }
+
+
+function updateUser(id) {
+    openModal();
+
+    document.getElementById("title-modal").innerText = "Atualizar usuário"
+    document.getElementById("button-salvar").innerText = "Atualizar"
+
+    
+
+    
+}
+// consertar deleteUser
 
 function deleteUser (id) {
     alert(id)
